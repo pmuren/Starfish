@@ -1,7 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://5hhsqv46ywtr"]
+[gd_scene load_steps=11 format=3 uid="uid://5hhsqv46ywtr"]
 
 [ext_resource type="PackedScene" uid="uid://csppi2bdvbpgs" path="res://protag.tscn" id="1_sp3kx"]
 [ext_resource type="Shader" path="res://ground.gdshader" id="2_euc63"]
+[ext_resource type="Shader" path="res://arm.gdshader" id="3_kf1v0"]
+[ext_resource type="Script" path="res://pickup.gd" id="3_xfiw5"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_eudqv"]
 shader = ExtResource("2_euc63")
@@ -10,13 +12,20 @@ shader = ExtResource("2_euc63")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_h5i34"]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_q6yvp"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_oraip"]
+shader = ExtResource("3_kf1v0")
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_6mdh5"]
+
 [node name="World" type="Node2D"]
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(2, 2)
 
 [node name="Protag" parent="." instance=ExtResource("1_sp3kx")]
-position = Vector2(-12, -7)
+position = Vector2(50, 55)
 rotation = -0.787358
 
 [node name="Ground" type="StaticBody2D" parent="."]
@@ -32,3 +41,19 @@ texture = SubResource("CanvasTexture_7t28r")
 position = Vector2(-2.31294e-13, 2.08165e-12)
 scale = Vector2(6.4, 6.4)
 shape = SubResource("RectangleShape2D_h5i34")
+
+[node name="Pickup" type="Area2D" parent="."]
+script = ExtResource("3_xfiw5")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Pickup"]
+position = Vector2(-46, 92)
+scale = Vector2(0.8, 0.8)
+shape = SubResource("CircleShape2D_q6yvp")
+
+[node name="Sprite2D" type="Sprite2D" parent="Pickup/CollisionShape2D"]
+material = SubResource("ShaderMaterial_oraip")
+position = Vector2(-4.76837e-06, 0)
+scale = Vector2(20, 20)
+texture = SubResource("CanvasTexture_6mdh5")
+
+[connection signal="body_entered" from="Pickup" to="Pickup" method="_on_body_entered"]

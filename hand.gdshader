@@ -6,7 +6,7 @@ void vertex() {
 
 void fragment() {
 	float alpha = step(distance(UV, vec2(0.5, 0.5)), 0.5);
-	COLOR = vec4(0.5, UV.x, UV.y, alpha);
+	COLOR = vec4(UV.y, UV.x*0.75, UV.x, alpha);
 	// Called for every pixel the material is visible on.
 }
 
