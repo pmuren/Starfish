@@ -1,24 +1,91 @@
-[gd_scene load_steps=5 format=3 uid="uid://csppi2bdvbpgs"]
+[gd_scene load_steps=11 format=3 uid="uid://csppi2bdvbpgs"]
 
+[ext_resource type="Texture2D" uid="uid://dt4sahhkyny12" path="res://icon.svg" id="1_4ltw5"]
 [ext_resource type="Shader" path="res://protag.gdshader" id="1_7hfna"]
+[ext_resource type="Script" path="res://protag.gd" id="1_j3xkw"]
+[ext_resource type="Shader" path="res://arm.gdshader" id="2_mk8mo"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_ckh35"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_f36wq"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_l0mhx"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xrdvp"]
 shader = ExtResource("1_7hfna")
 
-[sub_resource type="CanvasTexture" id="CanvasTexture_4mxgw"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_otckd"]
 
-[node name="Protag" type="RigidBody2D"]
-position = Vector2(2.08165e-12, 2.08165e-12)
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_axusp"]
+shader = ExtResource("1_7hfna")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(2.08165e-12, 2.08165e-12)
-scale = Vector2(10, 10)
-shape = SubResource("CircleShape2D_ckh35")
+[sub_resource type="CanvasTexture" id="CanvasTexture_3bv4j"]
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-material = SubResource("ShaderMaterial_l0mhx")
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6w5qu"]
+shader = ExtResource("2_mk8mo")
+
+[node name="Protag" type="Node2D"]
 position = Vector2(2.08165e-12, 2.08165e-12)
-scale = Vector2(200, 200)
-texture = SubResource("CanvasTexture_4mxgw")
+script = ExtResource("1_j3xkw")
+
+[node name="Torso" type="RigidBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Torso"]
+shape = SubResource("CircleShape2D_f36wq")
+
+[node name="Sprite2D" type="Sprite2D" parent="Torso/CollisionShape2D"]
+material = SubResource("ShaderMaterial_xrdvp")
+position = Vector2(-2.08165e-12, -2.08165e-12)
+scale = Vector2(0.156136, 0.156136)
+texture = ExtResource("1_4ltw5")
+
+[node name="UpperArm0" type="RigidBody2D" parent="."]
+position = Vector2(-19, -2)
+rotation = 1.5708
+gravity_scale = 1.66533e-16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="UpperArm0"]
+position = Vector2(-4.14957e-12, 0)
+scale = Vector2(0.5, 1)
+shape = SubResource("CapsuleShape2D_otckd")
+
+[node name="Sprite2D" type="Sprite2D" parent="UpperArm0/CollisionShape2D"]
+material = SubResource("ShaderMaterial_axusp")
+position = Vector2(2.10321e-12, 0)
+scale = Vector2(20, 30)
+texture = SubResource("CanvasTexture_3bv4j")
+
+[node name="LowerArm0" type="RigidBody2D" parent="."]
+position = Vector2(-43, -5)
+rotation = 1.87442
+gravity_scale = 1.66533e-16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LowerArm0"]
+position = Vector2(-4.76837e-07, 0)
+scale = Vector2(0.5, 1)
+shape = SubResource("CapsuleShape2D_otckd")
+
+[node name="Sprite2D" type="Sprite2D" parent="LowerArm0/CollisionShape2D"]
+material = SubResource("ShaderMaterial_6w5qu")
+position = Vector2(2.10321e-12, 0)
+scale = Vector2(20, 30)
+texture = SubResource("CanvasTexture_3bv4j")
+
+[node name="Elbow0" type="PinJoint2D" parent="."]
+position = Vector2(-31, -1)
+node_a = NodePath("../UpperArm0")
+node_b = NodePath("../LowerArm0")
+bias = 0.9
+motor_enabled = true
+motor_target_velocity = 34.9066
+
+[node name="Bicep0" type="DampedSpringJoint2D" parent="."]
+position = Vector2(-13, -9)
+rotation = 1.5708
+node_a = NodePath("../UpperArm0")
+node_b = NodePath("../LowerArm0")
+length = 40.0
+rest_length = 25.0
+stiffness = 40.0
+damping = 0.5
+
+[node name="Shoulder0" type="PinJoint2D" parent="."]
+position = Vector2(-7, -2)
+node_a = NodePath("../Torso")
+node_b = NodePath("../UpperArm0")

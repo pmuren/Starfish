@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://5hhsqv46ywtr"]
+[gd_scene load_steps=10 format=3 uid="uid://5hhsqv46ywtr"]
 
 [ext_resource type="PackedScene" uid="uid://csppi2bdvbpgs" path="res://protag.tscn" id="1_sp3kx"]
+[ext_resource type="Shader" path="res://protag.gdshader" id="2_6gfo1"]
 [ext_resource type="Shader" path="res://ground.gdshader" id="2_euc63"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_eudqv"]
@@ -10,14 +11,26 @@ shader = ExtResource("2_euc63")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_h5i34"]
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dxoli"]
+shader = ExtResource("2_6gfo1")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_i2rh8"]
+shader = ExtResource("2_6gfo1")
+
+[sub_resource type="SphereMesh" id="SphereMesh_lrfsx"]
+material = SubResource("ShaderMaterial_i2rh8")
+
 [node name="World" type="Node2D"]
 
 [node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(2, 2)
 
 [node name="Protag" parent="." instance=ExtResource("1_sp3kx")]
+position = Vector2(-12, -7)
+rotation = -0.787358
 
 [node name="Ground" type="StaticBody2D" parent="."]
-position = Vector2(2.08165e-12, 296)
+position = Vector2(2.08165e-12, 132)
 scale = Vector2(9, 0.5)
 
 [node name="Sprite2D" type="Sprite2D" parent="Ground"]
@@ -26,5 +39,12 @@ scale = Vector2(128, 128)
 texture = SubResource("CanvasTexture_7t28r")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Ground"]
+position = Vector2(2.08165e-12, 2.08165e-12)
 scale = Vector2(6.4, 6.4)
 shape = SubResource("RectangleShape2D_h5i34")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="."]
+material = SubResource("ShaderMaterial_dxoli")
+position = Vector2(2.08165e-12, 2.08165e-12)
+scale = Vector2(10, 10)
+mesh = SubResource("SphereMesh_lrfsx")
