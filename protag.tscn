@@ -25,6 +25,8 @@ position = Vector2(2.08165e-12, 2.08165e-12)
 script = ExtResource("1_j3xkw")
 
 [node name="Torso" type="RigidBody2D" parent="."]
+mass = 10.0
+freeze = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Torso"]
 shape = SubResource("CircleShape2D_f36wq")
@@ -72,18 +74,19 @@ position = Vector2(-31, -1)
 node_a = NodePath("../UpperArm0")
 node_b = NodePath("../LowerArm0")
 bias = 0.9
-motor_enabled = true
-motor_target_velocity = 34.9066
+angular_limit_enabled = true
+angular_limit_lower = 0.0872665
+angular_limit_upper = 1.5708
 
 [node name="Bicep0" type="DampedSpringJoint2D" parent="."]
-position = Vector2(-13, -9)
-rotation = 1.5708
+position = Vector2(-12, -3)
+rotation = 1.69821
 node_a = NodePath("../UpperArm0")
 node_b = NodePath("../LowerArm0")
 length = 40.0
-rest_length = 25.0
+rest_length = 20.0
 stiffness = 40.0
-damping = 0.5
+damping = 0.4
 
 [node name="Shoulder0" type="PinJoint2D" parent="."]
 position = Vector2(-7, -2)
